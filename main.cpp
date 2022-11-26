@@ -9,7 +9,6 @@ using namespace std;
 int main() {
     Maquina m;
     cout << "O quê você deseja buscar hoje?" << endl;
-    Maquina.Buscar();
-    Maquina.Recuperar();
+    m.Buscar();
     return 0;
 }

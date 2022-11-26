@@ -11,21 +11,23 @@ using namespace std;
 // a um set de files.
 class Maquina{
     private:
-        map<string,set<string>> Maquina_; // índice invertido
-        set<string> input; // entrada do usuário
+        map<string, set<string>> Maquina_; // Índice invertido
     
     public:
         // Cria um índice invertido com os documentos do diretório "./documentos/"
         Maquina();
 
         // Recebe uma lista de palavras
-        set<string> Buscar();
+        void Buscar();
+
+        // Seleciona os documentos que possuem as palavras buscadas, e os organiza
+        set<string> Selecionar(set<string> buscadas, int numero_de_palavras);
 
         // Normaliza o texto de entrada
-        void Normalizar(string input); 
+        string Normalizar(string input); 
 
         // Retorna os valores da máquina de busca
-        void Recuperar(string input);
+        void Recuperar(set<string> documentos);
 };
 
 
