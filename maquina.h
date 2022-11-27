@@ -15,19 +15,20 @@ class Maquina{
     
     public:
         // Cria um índice invertido com os documentos do diretório "./documentos/".
-        Maquina();
+        Maquina(string path);
 
-        // Recebe uma lista de palavras e separa elas.
-        void Buscar();
+        // Recebe uma lista de palavras e retorna os documentos buscados.
+        set<string> Buscar(string input);
 
         // Seleciona os documentos que possuem todas as palavras buscadas, e os organiza.
         set<string> Selecionar(set<string> buscadas, int numero_de_palavras);
 
+        // Checa se o caracter do parâmetro é uma letra normalizada ou não.
+        bool Letra(string str);
+
         // Normaliza o texto do parâmetro.
         string Normalizar(string input); 
 
-        // "Printa" na tela os documentos que possuem todas as palavras buscadas.
-        void Recuperar(set<string> documentos);
 };
 
 

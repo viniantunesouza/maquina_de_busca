@@ -7,20 +7,18 @@
 #include <string>
 #include <vector>
 
-
 namespace fs = std::filesystem;
 using namespace std;
 
 // Cria um índice invertido com os documentos do diretório "./documentos/".
-Maquina::Maquina(){
-    string path = "./Documentos"; // Pasta em que se encontram os documentos.
+Maquina::Maquina(string path){
     for (const auto & entry : fs::directory_iterator(path)){ // Iterador para os documentos da pasta.
         string palavra;
         ifstream in;
         in.open(entry.path());
         while(in >> palavra){ // Insere cada palavra e o documento em que se encontra no map Maquina_.
             string entryPath = entry.path();
-            string nome = entryPath.substr((path.length() + 1), (nome.length() - path.length())); // Retira o nome da pasta do nome do documento.
+            string nome = entryPath.substr((path.length() + 1), (entryPath.length() - path.length())); // Retira o nome da pasta do nome do documento.
             Maquina_[Normalizar(palavra)].insert(nome);
         }
 
@@ -29,17 +27,16 @@ Maquina::Maquina(){
 }
 
 // Recebe uma lista de palavras e separa elas.
-void Maquina::Buscar(){
+set<string> Maquina::Buscar(string input){
     int numero_de_palavras = 0;
     set<string> buscadas;
-    string input, palavras;
-    getline(cin, input);
+    string palavras;
     stringstream stream(input);
     while(getline(stream, palavras, ' ')){ // Separa cada palavra da busca e insere no set "buscadas".
         buscadas.insert(Normalizar(palavras));
         numero_de_palavras++;
     }
-    Recuperar(Selecionar(buscadas, numero_de_palavras)); // "Printa" as palavras depois de tirar os documentos em que nem todas aparecem.   
+    return Selecionar(buscadas, numero_de_palavras); // "Printa" as palavras depois de tirar os documentos em que nem todas aparecem.   
 }
 
 // Seleciona os documentos que possuem todas as palavras buscadas, e os organiza.
@@ -61,18 +58,11 @@ set<string> Maquina::Selecionar(set<string> buscadas, int numero_de_palavras){
     return documentosDepois;
 }
 
-// "Printa" na tela os documentos que possuem todas as palavras buscadas.
-void Maquina::Recuperar(set<string> documentos){ 
-    for(auto it = documentos.begin(); it != documentos.end(); it++){ // Itera na lista de documentos já filtrada.
-        cout << *it << endl;
-    }
-}
-
 vector<string> letras = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p",
     "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K",
     "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}; // Conjunto das letras que podem aparecer após normalizar.
 
-bool Letra(string str) { // Checa se o caracter do parâmetro é uma letra do vector acima.
+bool Maquina::Letra(string str) { // Checa se o caracter do parâmetro é uma letra do vector acima.
     for(int i = 0; i < letras.size(); i++) {
         if (letras[i] == str) {
             return true;
